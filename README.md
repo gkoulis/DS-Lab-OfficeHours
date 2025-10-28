@@ -14,7 +14,7 @@ git clone https://github.com/gkoulis/DS-Lab-OfficeHours.git
 Run the example:
 
 ```shell
-cd ds-lab-officehours
+cd DS-Lab-OfficeHours
 ./mvmw spring-boot:run  # MacOS / Linux
 ./mvnw.cmd spring-boot:run  # Windows
 ```

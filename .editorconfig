@@ -1,0 +1,23 @@
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+[*.java]
+# Doc: https://youtrack.jetbrains.com/issue/IDEA-170643#focus=streamItem-27-3708697.0-0
+ij_java_imports_layout = $*,|,java.**,|,javax.**,|,org.**,|,com.**,|,com.diffplug.**,|,*
+ij_java_use_single_class_imports = true
+ij_java_class_count_to_use_import_on_demand = 999
+ij_java_names_count_to_use_import_on_demand = 999
+# max_line_length = 100
+# continuation_indent_size = 8
+# ij_java_align_multiline_binary_operation = true
+# ij_java_align_multiline_chained_methods = true
+# ij_java_align_group_field_declarations = true
+# ij_java_space_before_lambda_arrow = true
+# ij_java_space_before_method_parentheses = true
+# ij_java_wrap_method_arguments = do_not_wrap
+# ij_java_wrap_method_parameters = do_not_wrap
+# ij_java_wrap_extends_list = do_not_wrap

@@ -15,7 +15,7 @@ Run the example:
 
 ```shell
 cd DS-Lab-OfficeHours
-./mvmw spring-boot:run  # MacOS / Linux
+./mvnw spring-boot:run  # MacOS / Linux
 ./mvnw.cmd spring-boot:run  # Windows
 ```
 

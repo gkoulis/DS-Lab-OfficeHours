@@ -16,8 +16,22 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
+/**
+ * Person entity.
+ */
 @Entity
-@Table(name = "person")
+@Table(
+    name = "person",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_person_hua_id", columnNames = "hua_id"),
+        @UniqueConstraint(name = "uk_person_email_address", columnNames = "email_address"),
+        @UniqueConstraint(name = "uk_person_mobile_phone_number", columnNames = "mobile_phone_number")
+    },
+    indexes = {
+        @Index(name = "idx_person_type", columnList = "type"),
+        @Index(name = "idx_person_last_name", columnList = "last_name")
+    }
+)
 public class Person {
 
     @Id

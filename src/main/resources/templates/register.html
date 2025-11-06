@@ -10,15 +10,40 @@
 <h2>Registration</h2>
 
 <!-- REGISTRATION FORM -->
-<form>
-    <!-- TODO action & method -->
-    <!-- TODO Fields -->
-    <!-- TODO Button -->
+<form th:action="@{/register}" method="post" th:object="${person}">
 
-    <!-- Example field -->
-    <label for="example-input">Example Field</label>
-    <input id="example-input" type="text" name="example" />
+    <label>I am:</label>
+    <select name="type" th:field="*{type}">
+        <option value="TEACHER">Teacher</option>
+        <option value="STUDENT">Student</option>
+    </select>
+    <br/>
 
+    <label>HUA ID</label>
+    <input type="text" name="huaId" th:field="*{huaId}" />
+    <br/>
+
+    <label>First Name</label>
+    <input type="text" name="firstName" th:field="*{firstName}" />
+    <br/>
+
+    <label>Last Name</label>
+    <input type="text" name="lastName" th:field="*{lastName}" />
+    <br/>
+
+    <label>Email Address</label>
+    <input type="text" name="emailAddress" th:field="*{emailAddress}" />
+    <br/>
+
+    <label>Mobile Phone Number</label>
+    <input type="text" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" />
+    <br/>
+
+    <label>Password</label>
+    <input type="password" name="passwordHash" th:field="*{passwordHash}" />
+    <br/>
+
+    <button type="submit">Submit</button>
 </form>
 
 <!-- USEFUL LINKS -->

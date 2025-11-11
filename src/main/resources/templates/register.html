@@ -10,7 +10,7 @@
 <h2>Registration</h2>
 
 <!-- REGISTRATION FORM -->
-<form th:action="@{/register}" method="post" th:object="${person}">
+<form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
 
     <label>I am:</label>
     <select name="type" th:field="*{type}">
@@ -40,7 +40,7 @@
     <br/>
 
     <label>Password</label>
-    <input type="password" name="passwordHash" th:field="*{passwordHash}" />
+    <input type="password" name="rawPassword" th:field="*{rawPassword}" />
     <br/>
 
     <button type="submit">Submit</button>

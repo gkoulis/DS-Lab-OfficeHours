@@ -7,9 +7,12 @@ import gr.hua.dit.officehours.core.service.PersonService;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Default implementation of {@link PersonService}.
  */
+@Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;

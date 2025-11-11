@@ -1,5 +1,8 @@
 # application.yml (or application-dev.yml if you use profiles)
 spring:
+  application:
+    name: Office Hours
+
   datasource:
     url: jdbc:h2:file:./LOCAL_DATA/h2/app;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
     username: sa

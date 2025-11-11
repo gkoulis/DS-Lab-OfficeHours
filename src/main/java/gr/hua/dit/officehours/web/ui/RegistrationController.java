@@ -3,6 +3,7 @@ package gr.hua.dit.officehours.web.ui;
 import gr.hua.dit.officehours.core.model.PersonType;
 import gr.hua.dit.officehours.core.service.PersonService;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
+import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,12 @@ public class RegistrationController {
         // TODO Try to create Person.
         // TODO Handle Person creation failure.
         // TODO Redirect to login.
-        final PersonView personView = this.personService.createPerson(createPersonRequest);
-        return "redirect:/login"; // registration successful - redirect to login form (not yet ready)
+        final CreatePersonResult createPersonResult = this.personService.createPerson(createPersonRequest);
+        if (createPersonResult.created()) {
+            return "redirect:/login"; // registration successful - redirect to login form (not yet ready)
+        }
+        model.addAttribute("createPersonRequest", createPersonRequest); // Pass the same form data.
+        model.addAttribute("errorMessage", createPersonResult.reason()); // Show an error message!
+        return "register";
     }
 }

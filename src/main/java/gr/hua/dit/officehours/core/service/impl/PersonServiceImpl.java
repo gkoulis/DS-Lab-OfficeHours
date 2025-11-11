@@ -4,7 +4,9 @@ import gr.hua.dit.officehours.core.model.Person;
 import gr.hua.dit.officehours.core.model.PersonType;
 import gr.hua.dit.officehours.core.repository.PersonRepository;
 import gr.hua.dit.officehours.core.service.PersonService;
+import gr.hua.dit.officehours.core.service.mapper.PersonMapper;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
+import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
 import org.springframework.stereotype.Service;
@@ -16,15 +18,19 @@ import org.springframework.stereotype.Service;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
+    private final PersonMapper personMapper;
 
-    public PersonServiceImpl(final PersonRepository personRepository) {
+    public PersonServiceImpl(final PersonRepository personRepository,
+                             final PersonMapper personMapper) {
         if (personRepository == null) throw new NullPointerException();
+        if (personMapper == null) throw new NullPointerException();
 
         this.personRepository = personRepository;
+        this.personMapper = personMapper;
     }
 
     @Override
-    public PersonView createPerson(final CreatePersonRequest createPersonRequest) {
+    public CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest) {
         if (createPersonRequest == null) throw new NullPointerException();
 
         // Unpack (we assume valid `CreatePersonRequest` instance)
@@ -42,7 +48,7 @@ public class PersonServiceImpl implements PersonService {
         // --------------------------------------------------
 
         if (!emailAddress.endsWith("@hua.gr")) {
-            throw new IllegalArgumentException("Only academic email addresses (@hua.gr) are allowed");
+            return CreatePersonResult.fail("Only academic email addresses (@hua.gr) are allowed");
         }
 
         // --------------------------------------------------
@@ -85,10 +91,10 @@ public class PersonServiceImpl implements PersonService {
         // Map `Person` to `PersonView`.
         // --------------------------------------------------
 
-        final PersonView personView = null; // TODO Implement.
+        final PersonView personView = this.personMapper.convertPersonToPersonView(person);
 
         // --------------------------------------------------
 
-        return personView;
+        return CreatePersonResult.success(personView);
     }
 }

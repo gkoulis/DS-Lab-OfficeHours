@@ -1,6 +1,16 @@
 package gr.hua.dit.officehours.core.service.model;
 
+import gr.hua.dit.officehours.core.model.PersonType;
+
 /**
- * TODO DTO to be implemented.
+ * PersonView (DTO) that includes only information to be exposed.
  */
-public record PersonView() {}
+public record PersonView(
+    long id,
+    String huaId,
+    String firstName,
+    String lastName,
+    String mobilePhoneNumber,
+    String emailAddress,
+    PersonType type
+) {}

@@ -1,2 +1,30 @@
-<h1>Logout</h1>
-<small>Not yet implemented</small>
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Logout</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Office Hours <small>/ Logout</small></h1>
+</header>
+
+<section layout:fragment="main">
+
+    <form th:action="@{/logout}" method="post">
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">Log out</button>
+        </div>
+
+        <p><a th:href="@{/profile}">Profile</a></p>
+    </form>
+
+</section>
+
+</body>
+</html>

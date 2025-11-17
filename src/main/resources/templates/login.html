@@ -1,2 +1,53 @@
-<h1>Login</h1>
-<small>Not yet implemented</small>
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Office Hours <small>/ Login</small></h1>
+</header>
+
+<section layout:fragment="main">
+
+    <form th:action="@{/login}" method="post">
+
+        <!-- MESSAGE -->
+        <div class="text-center mb-3" th:if="${message}">
+            <p class="text-primary" th:text="${message}"></p>
+        </div>
+
+        <!-- ERROR MESSAGE -->
+        <div class="text-center mb-3" th:if="${error}">
+            <p class="text-danger" th:text="${error}"></p>
+        </div>
+
+        <!-- FORM CONTROLS -->
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="username" type="text" class="form-control" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required>
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+
+        <p><a th:href="@{/register}">Don't have an account? Register</a></p>
+
+    </form>
+
+</section>
+
+</body>
+</html>

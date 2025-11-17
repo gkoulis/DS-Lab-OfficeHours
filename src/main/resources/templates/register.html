@@ -1,105 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en" dir="ltr">
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
 <head>
-    <meta charset="UTF-8" />
     <title>Registration</title>
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <!-- CUSTOM STYLES -->
-    <style>
-        .form-container {
-            margin: 0 auto;
-            max-width: 600px;
-            box-shadow: 12px 12px 0px black;
-            border: 4px solid black !important;
-        }
-        .form-control, .form-select {
-            border: 2px solid #6d6d6d;
-            border-radius: 0;
-        }
-        .form-label {
-            text-transform: uppercase;
-            margin-bottom: 2px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #7c7c7c;
-            font-size: 12px;
-        }
-        .form-container .btn-primary {
-            background: black;
-            border: 0;
-            padding: 0.5em 4em;
-        }
-    </style>
 </head>
+
 <body>
 
-<header class="text-center p-4">
+<header layout:fragment="header">
     <h1>Office Hours <small>/ Registration</small></h1>
 </header>
 
-<section>
-    <div class="form-container p-4">
+<section layout:fragment="main">
 
-        <!-- REGISTRATION FORM -->
-        <form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
+    <!-- REGISTRATION FORM -->
+    <form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
 
-            <!-- ERROR MESSAGE -->
-            <div class="text-center mb-3" th:if="${errorMessage != null}">
-                <p class="text-danger m-0 p-0" th:text="${errorMessage}"></p>
-            </div>
+        <!-- ERROR MESSAGE -->
+        <div class="text-center mb-3" th:if="${errorMessage != null}">
+            <p class="text-danger m-0 p-0" th:text="${errorMessage}"></p>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">I am:</label>
-                <select name="type" th:field="*{type}" class="form-select">
-                    <option value="TEACHER">Teacher</option>
-                    <option value="STUDENT">Student</option>
-                </select>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">I am:</label>
+            <select name="type" th:field="*{type}" class="form-select">
+                <option value="TEACHER">Teacher</option>
+                <option value="STUDENT">Student</option>
+            </select>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">HUA ID</label>
-                <input type="text" name="huaId" th:field="*{huaId}" class="form-control" placeholder="Example: it2023001 (without @hua.gr)" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">HUA ID</label>
+            <input type="text" name="huaId" th:field="*{huaId}" class="form-control" placeholder="Example: it2023001 (without @hua.gr)" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">First Name</label>
-                <input type="text" name="firstName" th:field="*{firstName}" class="form-control" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" name="firstName" th:field="*{firstName}" class="form-control" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Last Name</label>
-                <input type="text" name="lastName" th:field="*{lastName}" class="form-control" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" name="lastName" th:field="*{lastName}" class="form-control" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email Address</label>
-                <input type="email" name="emailAddress" th:field="*{emailAddress}" class="form-control" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" name="emailAddress" th:field="*{emailAddress}" class="form-control" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Mobile Phone Number</label>
-                <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" class="form-control" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Mobile Phone Number</label>
+            <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" class="form-control" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" name="rawPassword" th:field="*{rawPassword}" class="form-control" required />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="rawPassword" th:field="*{rawPassword}" class="form-control" required />
+        </div>
 
-            <div class="mb-4">
-                <button type="submit" class="btn btn-primary">Register</button>
-            </div>
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
 
-            <!-- USEFUL LINKS -->
-            <p class="m-0 p-0">
-                <a th:href="@{/login}">Already have an account? Sign in</a>
-            </p>
+        <!-- USEFUL LINKS -->
+        <p class="m-0 p-0">
+            <a th:href="@{/login}">Already have an account? Log in</a>
+        </p>
 
-        </form>
+    </form>
 
-    </div>
 </section>
+
 </body>
 </html>

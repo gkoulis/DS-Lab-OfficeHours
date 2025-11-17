@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Profile</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Office Hours <small>/ Profile</small></h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div>
+        <ul>
+            <li>Email <span>????</span></li>
+            <li>Type <span>???? (student / teacher)</span></li>
+        </ul>
+
+        <!-- TODO Use user data -->
+        <!--
+        <ul>
+            <li>Email <span th:text="${me.email()}"></span></li>
+            <li>Type <span  th:text="${me.type()}"></span></li>
+        </ul>
+        -->
+
+        <hr>
+
+        <ul>
+            <li>
+                <a th:href="@{/profile}">Profile</a>
+            </li>
+            <li>
+                <a th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+</section>
+
+</body>
+</html>

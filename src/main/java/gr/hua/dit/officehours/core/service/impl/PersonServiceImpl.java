@@ -2,6 +2,8 @@ package gr.hua.dit.officehours.core.service.impl;
 
 import gr.hua.dit.officehours.core.model.Person;
 import gr.hua.dit.officehours.core.model.PersonType;
+import gr.hua.dit.officehours.core.port.LookupPort;
+import gr.hua.dit.officehours.core.port.SmsNotificationPort;
 import gr.hua.dit.officehours.core.repository.PersonRepository;
 import gr.hua.dit.officehours.core.service.PersonService;
 import gr.hua.dit.officehours.core.service.mapper.PersonMapper;
@@ -9,6 +11,8 @@ import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,16 +21,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonServiceImpl implements PersonService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
+
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+    private final LookupPort lookupPort;
+    private final SmsNotificationPort smsNotificationPort;
 
     public PersonServiceImpl(final PersonRepository personRepository,
-                             final PersonMapper personMapper) {
+                             final PersonMapper personMapper,
+                             final LookupPort lookupPort,
+                             final SmsNotificationPort smsNotificationPort) {
         if (personRepository == null) throw new NullPointerException();
         if (personMapper == null) throw new NullPointerException();
+        if (lookupPort == null) throw new NullPointerException();
+        if (smsNotificationPort == null) throw new NullPointerException();
 
         this.personRepository = personRepository;
         this.personMapper = personMapper;
+        this.lookupPort = lookupPort;
+        this.smsNotificationPort = smsNotificationPort;
     }
 
     @Override
@@ -67,7 +81,13 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        // TODO use external service to validate huaId
+        final PersonType personType_lookup = this.lookupPort.lookup(huaId).orElse(null);
+        if (personType_lookup == null) {
+            return CreatePersonResult.fail("Invalid HUA ID");
+        }
+        if (personType_lookup != type) {
+            return CreatePersonResult.fail("The provided person type does not match the actual one");
+        }
 
         // --------------------------------------------------
 
@@ -94,7 +114,11 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        // TODO user external service to notify person.
+        final String content = String.format("You have successfully registered for the Office Hours application. Use your email (%s) to log in.", emailAddress);
+        final boolean sent = this.smsNotificationPort.sendSms(mobilePhoneNumber, content);
+        if (!sent) {
+            LOGGER.warn("SMS send to {} failed!", mobilePhoneNumber);
+        }
 
         // Map `Person` to `PersonView`.
         // --------------------------------------------------

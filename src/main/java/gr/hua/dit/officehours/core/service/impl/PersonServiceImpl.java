@@ -53,9 +53,17 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        // TODO huaId must be unique
-        // TODO emailAddress must be unique
-        // TODO mobilePhoneNumber must be unique
+        if (this.personRepository.existsByHuaIdIgnoreCase(huaId)) {
+            return CreatePersonResult.fail("HUA ID already registered");
+        }
+
+        if (this.personRepository.existsByEmailAddressIgnoreCase(emailAddress)) {
+            return CreatePersonResult.fail("Email Address already registered");
+        }
+
+        if (this.personRepository.existsByMobilePhoneNumber(mobilePhoneNumber)) {
+            return CreatePersonResult.fail("Mobile Phone Number already registered");
+        }
 
         // --------------------------------------------------
 

@@ -5,11 +5,13 @@ import gr.hua.dit.officehours.core.port.PhoneNumberPort;
 import gr.hua.dit.officehours.core.port.impl.dto.PhoneNumberValidationResult;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * Default implementation of {@link PhoneNumberPort}. It uses the NOC external service.
  */
+@Service
 public class PhoneNumberPortImpl implements PhoneNumberPort {
 
     private final RestTemplate restTemplate;

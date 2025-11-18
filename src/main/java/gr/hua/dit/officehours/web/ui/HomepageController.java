@@ -11,6 +11,11 @@ public class HomepageController {
 
     @GetMapping("/")
     public String showHomepage() {
+        /*
+        if (AuthUtils.isAuthenticated(???)) {
+            return "redirect:/profile";
+        }
+        */
         return "homepage";
     }
 }

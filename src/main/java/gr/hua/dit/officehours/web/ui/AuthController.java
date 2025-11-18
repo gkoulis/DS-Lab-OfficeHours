@@ -11,13 +11,21 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        // TODO If user is authenticated, redirect to default view.
+        /*
+        if (AuthUtils.isAuthenticated(???)) {
+            return "redirect:/profile";
+        }
+        */
         return "login";
     }
 
     @GetMapping("/logout")
     public String logout() {
-        // TODO If user is not authenticated, redirect to login.
+        /*
+        if (AuthUtils.isAnonymous(???)) {
+            return "redirect:/login";
+        }
+        */
         return "logout";
     }
 }

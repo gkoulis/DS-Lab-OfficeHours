@@ -4,7 +4,6 @@ import gr.hua.dit.officehours.core.model.PersonType;
 import gr.hua.dit.officehours.core.service.PersonService;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
-import gr.hua.dit.officehours.core.service.model.PersonView;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,11 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String showRegistrationForm(final Model model) {
-        // TODO if user is authenticated, redirect to tickets
+        /*
+        if (AuthUtils.isAuthenticated(authentication)) {
+            return "redirect:/profile";
+        }
+        */
         // Initial data for the form.
         final CreatePersonRequest createPersonRequest = new CreatePersonRequest(PersonType.STUDENT, "", "", "", "", "", "");
         model.addAttribute("createPersonRequest", createPersonRequest);
@@ -39,12 +42,12 @@ public class RegistrationController {
         @ModelAttribute("createPersonRequest") final CreatePersonRequest createPersonRequest,
         final Model model
     ) {
-        // TODO if user is authenticated, redirect to tickets
-        // TODO Validate form (email format, size, blank, etc)
-        // TODO if form has errors, show the form (with pre-filled data)
-        // TODO Try to create Person.
-        // TODO Handle Person creation failure.
-        // TODO Redirect to login.
+        /*
+        if (AuthUtils.isAuthenticated(???)) {
+            return "redirect:/profile"; // already logged in.
+        }
+        */
+        // TODO Form validation + UI errors.
         final CreatePersonResult createPersonResult = this.personService.createPerson(createPersonRequest);
         if (createPersonResult.created()) {
             return "redirect:/login"; // registration successful - redirect to login form (not yet ready)

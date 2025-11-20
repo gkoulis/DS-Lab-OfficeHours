@@ -35,7 +35,6 @@
 		</dependency>
 
         <!-- SECURITY -->
-        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -48,7 +47,6 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-        -->
 
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>

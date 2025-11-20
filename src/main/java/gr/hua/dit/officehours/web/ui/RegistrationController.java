@@ -5,6 +5,7 @@ import gr.hua.dit.officehours.core.service.PersonService;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +26,13 @@ public class RegistrationController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm(final Model model) {
-        /*
+    public String showRegistrationForm(
+        final Authentication authentication,
+        final Model model
+    ) {
         if (AuthUtils.isAuthenticated(authentication)) {
             return "redirect:/profile";
         }
-        */
         // Initial data for the form.
         final CreatePersonRequest createPersonRequest = new CreatePersonRequest(PersonType.STUDENT, "", "", "", "", "", "");
         model.addAttribute("createPersonRequest", createPersonRequest);
@@ -39,14 +41,13 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String handleFormSubmission(
+        final Authentication authentication,
         @ModelAttribute("createPersonRequest") final CreatePersonRequest createPersonRequest,
         final Model model
     ) {
-        /*
-        if (AuthUtils.isAuthenticated(???)) {
+        if (AuthUtils.isAuthenticated(authentication)) {
             return "redirect:/profile"; // already logged in.
         }
-        */
         // TODO Form validation + UI errors.
         final CreatePersonResult createPersonResult = this.personService.createPerson(createPersonRequest);
         if (createPersonResult.created()) {

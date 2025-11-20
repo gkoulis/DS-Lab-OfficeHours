@@ -15,6 +15,7 @@ import gr.hua.dit.officehours.core.service.model.PersonView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,23 +26,27 @@ public class PersonServiceImpl implements PersonService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
 
+    private final PasswordEncoder passwordEncoder;
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
     private final PhoneNumberPort phoneNumberPort;
     private final LookupPort lookupPort;
     private final SmsNotificationPort smsNotificationPort;
 
-    public PersonServiceImpl(final PersonRepository personRepository,
+    public PersonServiceImpl(final PasswordEncoder passwordEncoder,
+                             final PersonRepository personRepository,
                              final PersonMapper personMapper,
                              final PhoneNumberPort phoneNumberPort,
                              final LookupPort lookupPort,
                              final SmsNotificationPort smsNotificationPort) {
+        if (passwordEncoder == null) throw new NullPointerException();
         if (personRepository == null) throw new NullPointerException();
         if (personMapper == null) throw new NullPointerException();
         if (phoneNumberPort == null) throw new NullPointerException();
         if (lookupPort == null) throw new NullPointerException();
         if (smsNotificationPort == null) throw new NullPointerException();
 
+        this.passwordEncoder = passwordEncoder;
         this.personRepository = personRepository;
         this.personMapper = personMapper;
         this.phoneNumberPort = phoneNumberPort;
@@ -107,7 +112,7 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        final String hashedPassword = rawPassword; // TODO Implement: encode password.
+        final String hashedPassword = this.passwordEncoder.encode(rawPassword);
 
         // Instantiate person.
         // --------------------------------------------------
@@ -130,7 +135,9 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        final String content = String.format("You have successfully registered for the Office Hours application. Use your email (%s) to log in.", emailAddress);
+        final String content = String.format(
+            "You have successfully registered for the Office Hours application. " +
+                "Use your email (%s) to log in.", emailAddress);
         final boolean sent = this.smsNotificationPort.sendSms(mobilePhoneNumber, content);
         if (!sent) {
             LOGGER.warn("SMS send to {} failed!", mobilePhoneNumber);

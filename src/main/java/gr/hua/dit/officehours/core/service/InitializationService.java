@@ -68,7 +68,7 @@ public class InitializationService {
             )
         );
         for (final var createPersonRequest : createPersonRequestList) {
-            this.personService.createPerson(createPersonRequest);
+            this.personService.createPerson(createPersonRequest, false); // do not send SMS
         }
         LOGGER.info("Database initialization completed successfully.");
     }

@@ -55,7 +55,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest) {
+    public CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest, final boolean notify) {
         if (createPersonRequest == null) throw new NullPointerException();
 
         // Unpack (we assume valid `CreatePersonRequest` instance)
@@ -135,12 +135,14 @@ public class PersonServiceImpl implements PersonService {
 
         // --------------------------------------------------
 
-        final String content = String.format(
-            "You have successfully registered for the Office Hours application. " +
-                "Use your email (%s) to log in.", emailAddress);
-        final boolean sent = this.smsNotificationPort.sendSms(mobilePhoneNumber, content);
-        if (!sent) {
-            LOGGER.warn("SMS send to {} failed!", mobilePhoneNumber);
+        if (notify) {
+            final String content = String.format(
+                "You have successfully registered for the Office Hours application. " +
+                    "Use your email (%s) to log in.", emailAddress);
+            final boolean sent = this.smsNotificationPort.sendSms(mobilePhoneNumber, content);
+            if (!sent) {
+                LOGGER.warn("SMS send to {} failed!", mobilePhoneNumber);
+            }
         }
 
         // Map `Person` to `PersonView`.

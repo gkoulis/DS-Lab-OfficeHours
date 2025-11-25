@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity // enables @PreAuthorize
 public class SecurityConfig {
 
-    // TODO API Security (stateless - JWT based)
+    // @future API Security (stateless - JWT based)
 
     /**
      * UI chain {@code "/**"} (stateful - cookie based).

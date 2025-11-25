@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestApiClientConfig {
 
-    // TODO Get me from application properties!
+    // @future Get me from application properties!
     public static final String BASE_URL = "http://localhost:8081";
 
     @Bean

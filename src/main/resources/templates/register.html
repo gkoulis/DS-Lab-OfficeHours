@@ -30,36 +30,43 @@
                 <option value="TEACHER">Teacher</option>
                 <option value="STUDENT">Student</option>
             </select>
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">HUA ID</label>
             <input type="text" name="huaId" th:field="*{huaId}" class="form-control" placeholder="Example: it2023001 (without @hua.gr)" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('huaId')}" th:errors="*{huaId}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">First Name</label>
             <input type="text" name="firstName" th:field="*{firstName}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Last Name</label>
             <input type="text" name="lastName" th:field="*{lastName}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Email Address</label>
             <input type="email" name="emailAddress" th:field="*{emailAddress}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Mobile Phone Number</label>
             <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('mobilePhoneNumber')}" th:errors="*{mobilePhoneNumber}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Password</label>
             <input type="password" name="rawPassword" th:field="*{rawPassword}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}"></div>
         </div>
 
         <div class="mb-4">

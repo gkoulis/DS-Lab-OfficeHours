@@ -13,10 +13,15 @@ import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * Default implementation of {@link PersonService}.
@@ -26,6 +31,7 @@ public class PersonServiceImpl implements PersonService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
 
+    private final Validator validator;
     private final PasswordEncoder passwordEncoder;
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
@@ -33,12 +39,14 @@ public class PersonServiceImpl implements PersonService {
     private final LookupPort lookupPort;
     private final SmsNotificationPort smsNotificationPort;
 
-    public PersonServiceImpl(final PasswordEncoder passwordEncoder,
+    public PersonServiceImpl(final Validator validator,
+                             final PasswordEncoder passwordEncoder,
                              final PersonRepository personRepository,
                              final PersonMapper personMapper,
                              final PhoneNumberPort phoneNumberPort,
                              final LookupPort lookupPort,
                              final SmsNotificationPort smsNotificationPort) {
+        if (validator == null) throw new NullPointerException();
         if (passwordEncoder == null) throw new NullPointerException();
         if (personRepository == null) throw new NullPointerException();
         if (personMapper == null) throw new NullPointerException();
@@ -46,6 +54,7 @@ public class PersonServiceImpl implements PersonService {
         if (lookupPort == null) throw new NullPointerException();
         if (smsNotificationPort == null) throw new NullPointerException();
 
+        this.validator = validator;
         this.passwordEncoder = passwordEncoder;
         this.personRepository = personRepository;
         this.personMapper = personMapper;
@@ -57,6 +66,23 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest, final boolean notify) {
         if (createPersonRequest == null) throw new NullPointerException();
+
+        // `CreatePersonRequest` validation.
+        // --------------------------------------------------
+
+        final Set<ConstraintViolation<CreatePersonRequest>> requestViolations
+            = this.validator.validate(createPersonRequest);
+        if (!requestViolations.isEmpty()) {
+            final StringBuilder sb = new StringBuilder();
+            for (final ConstraintViolation<CreatePersonRequest> violation : requestViolations) {
+                sb
+                    .append(violation.getPropertyPath())
+                    .append(": ")
+                    .append(violation.getMessage())
+                    .append("\n");
+            }
+            return CreatePersonResult.fail(sb.toString());
+        }
 
         // Unpack (we assume valid `CreatePersonRequest` instance)
         // --------------------------------------------------
@@ -127,6 +153,16 @@ public class PersonServiceImpl implements PersonService {
         person.setMobilePhoneNumber(mobilePhoneNumber);
         person.setPasswordHash(hashedPassword);
         person.setCreatedAt(null); // auto generated.
+
+        // --------------------------------------------------
+
+        final Set<ConstraintViolation<Person>> personViolations = this.validator.validate(person);
+        if (!personViolations.isEmpty()) {
+            // Throw an exception instead of returning an instance, i.e. `CreatePersonResult.fail`.
+            // At this point, errors/violations on the `Person` instance
+            // indicate a programmer error, not a client error.
+            throw new RuntimeException("invalid Person instance");
+        }
 
         // Persist person (save/insert to database)
         // --------------------------------------------------

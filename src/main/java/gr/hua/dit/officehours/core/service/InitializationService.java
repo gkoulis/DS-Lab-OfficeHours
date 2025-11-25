@@ -39,6 +39,7 @@ public class InitializationService {
         }
         LOGGER.info("Starting database initialization with initial data...");
         final List<CreatePersonRequest> createPersonRequestList = List.of(
+            // User with ID 1
             new CreatePersonRequest(
                 PersonType.TEACHER,
                 "t0001",
@@ -48,6 +49,7 @@ public class InitializationService {
                 "+306900000000",
                 "1234"
             ),
+            // User with ID 2
             new CreatePersonRequest(
                 PersonType.STUDENT,
                 "it2023001",
@@ -57,6 +59,7 @@ public class InitializationService {
                 "+306900000001",
                 "1234"
             ),
+            // User with ID 3
             new CreatePersonRequest(
                 PersonType.STUDENT,
                 "it2023002",

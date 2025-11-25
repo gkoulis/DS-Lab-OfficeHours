@@ -38,7 +38,7 @@ import java.time.Instant;
         @Index(name = "idx_person_last_name", columnList = "last_name")
     }
 )
-public class Person {
+public final class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

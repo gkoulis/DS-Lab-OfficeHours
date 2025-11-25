@@ -17,16 +17,18 @@
 <section layout:fragment="main">
 
     <div>
-        <ul>
-            <li>Email <span th:text="${me.emailAddress()}"></span></li>
-            <li>Type <span  th:text="${me.type()}"></span></li>
-        </ul>
+        <div>
+            <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+        </div>
 
         <hr>
 
         <ul>
             <li>
                 <a th:href="@{/profile}">Profile</a>
+            </li>
+            <li>
+                <a th:href="@{/tickets}">Tickets</a>
             </li>
             <li>
                 <a th:href="@{/logout}">Logout</a>

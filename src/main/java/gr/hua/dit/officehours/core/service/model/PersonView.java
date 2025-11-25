@@ -3,7 +3,10 @@ package gr.hua.dit.officehours.core.service.model;
 import gr.hua.dit.officehours.core.model.PersonType;
 
 /**
- * PersonView (DTO) that includes only information to be exposed.
+ * General view of {@link gr.hua.dit.officehours.core.model.Person} entity.
+ *
+ * @see gr.hua.dit.officehours.core.model.Person
+ * @see gr.hua.dit.officehours.core.service.PersonService
  */
 public record PersonView(
     long id,
@@ -13,4 +16,9 @@ public record PersonView(
     String mobilePhoneNumber,
     String emailAddress,
     PersonType type
-) {}
+) {
+
+    public String fullName() {
+        return this.firstName + " " + this.lastName;
+    }
+}

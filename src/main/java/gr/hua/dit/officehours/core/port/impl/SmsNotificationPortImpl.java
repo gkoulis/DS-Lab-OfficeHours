@@ -1,5 +1,7 @@
 package gr.hua.dit.officehours.core.port.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +20,10 @@ import gr.hua.dit.officehours.core.port.impl.dto.SendSmsResult;
 @Service
 public class SmsNotificationPortImpl implements SmsNotificationPort {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmsNotificationPortImpl.class);
+
+    private static final boolean ACTIVE = false; // @future Get from application properties.
+
     private final RestTemplate restTemplate;
 
     public SmsNotificationPortImpl(final RestTemplate restTemplate) {
@@ -31,6 +37,20 @@ public class SmsNotificationPortImpl implements SmsNotificationPort {
         if (e164.isBlank()) throw new IllegalArgumentException();
         if (content == null) throw new NullPointerException();
         if (content.isBlank()) throw new IllegalArgumentException();
+
+        // --------------------------------------------------
+
+        if (!ACTIVE) {
+            LOGGER.warn("SMS Notification is not active");
+            return true;
+        }
+
+        // --------------------------------------------------
+
+        if (e164.startsWith("+30692") || e164.startsWith("+30690000")) {
+            LOGGER.warn("Not allocated E164 {}. Aborting...", e164);
+            return true;
+        }
 
         // Headers
         // --------------------------------------------------

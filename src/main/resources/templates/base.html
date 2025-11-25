@@ -16,7 +16,7 @@
     <style>
         .app-container {
             margin: 0 auto;
-            max-width: 600px;
+            max-width: 800px;
             box-shadow: 12px 12px 0px black;
             border: 4px solid black !important;
         }
@@ -36,6 +36,16 @@
             background: black;
             border: 0;
             padding: 0.5em 4em;
+        }
+        .app-container .table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        .app-container .table td,
+        .app-container .table th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>

@@ -2,6 +2,7 @@ package gr.hua.dit.officehours.core.service;
 
 import gr.hua.dit.officehours.core.model.PersonType;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
+import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 
 import jakarta.annotation.PostConstruct;
 
@@ -22,11 +23,15 @@ public class InitializationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializationService.class);
 
     private final PersonService personService;
+    private final TicketService ticketService;
     private final AtomicBoolean initialized;
 
-    public InitializationService(final PersonService personService) {
+    public InitializationService(final PersonService personService,
+                                 final TicketService ticketService) {
         if (personService == null) throw new NullPointerException();
+        if (ticketService == null) throw new NullPointerException();
         this.personService = personService;
+        this.ticketService = ticketService;
         this.initialized = new AtomicBoolean(false);
     }
 
@@ -73,6 +78,20 @@ public class InitializationService {
         for (final var createPersonRequest : createPersonRequestList) {
             this.personService.createPerson(createPersonRequest, false); // do not send SMS
         }
+        // TODO Not working: requires authenticated user!
+        /*
+        final List<OpenTicketRequest> openTicketRequestList = List.of(
+            new OpenTicketRequest(
+                2L,
+                1L,
+                "Test Subject",
+                "Test Student Content"
+            )
+        );
+        for (final var openTicketRequest : openTicketRequestList) {
+            this.ticketService.openTicket(openTicketRequest, false); // do not send SMS
+        }
+        */
         LOGGER.info("Database initialization completed successfully.");
     }
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Open Ticket</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/tickets}">Back to list</a>
+    </p>
+    <h1>Open Ticket</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <form th:action="@{/tickets/new}" method="post" th:object="${form}">
+
+        <div class="mb-3">
+            <label for="teacherId" class="form-label">Teacher ID</label>
+            <input type="text" id="teacherId" name="teacherId" th:field="*{teacherId}" class="form-control" placeholder="" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('teacherId')}" th:errors="*{teacherId}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" name="subject" th:field="*{subject}" class="form-control" placeholder="" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="studentContent" class="form-label">Student's Content</label>
+            <textarea id="studentContent" name="studentContent" th:field="*{studentContent}" class="form-control" placeholder="" required></textarea>
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('studentContent')}" th:errors="*{studentContent}"></div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Open Ticket</button>
+        </div>
+    </form>
+
+</section>
+
+</body>
+</html>

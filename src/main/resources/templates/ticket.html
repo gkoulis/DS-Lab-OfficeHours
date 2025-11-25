@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Ticket</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/tickets}">Back to list</a>
+    </p>
+    <h1>Ticket</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <ul class="mb-4">
+        <li>Status: <b th:text="${ticket.status()}"></b></li>
+        <li>Student: <b th:text="${ticket.student().fullName()}"></b></li>
+        <li>Teacher: <b th:text="${ticket.teacher().fullName()}"></b></li>
+        <li>Queued at: <b th:text="${ticket.queuedAt()}"></b></li>
+        <li th:if="${ticket.inProgressAt() != null}">In progress at: <b th:text="${ticket.inProgressAt()}"></b></li>
+        <li th:if="${ticket.inProgressAt() != null}">Completed at: <b th:text="${ticket.completedAt()}"></b></li>
+        <li>Subject: <b th:text="${ticket.subject()}"></b></li>
+        <li>Student's Content: <b th:text="${ticket.studentContent()}"></b></li>
+        <li th:if="${ticket.teacherContent() != null}">Teacher's Content: <b th:text="${ticket.teacherContent()}"></b></li>
+    </ul>
+
+    <!-- Teacher actions -->
+    <div th:if="${#authorization.expression('hasRole(''TEACHER'')')}">
+
+        <!-- IN_PROGRESS / start -->
+        <form th:if="${ticket.status().name() == 'QUEUED'}" th:action="@{|/tickets/${ticket.id()}/start|}" method="post">
+            <button type="submit" class="btn btn-primary">Start</button>
+        </form>
+
+        <!-- COMPLETED / complete -->
+        <form
+            th:if="${ticket.status().name() == 'IN_PROGRESS'}"
+            th:action="@{|/tickets/${ticket.id()}/complete|}"
+            method="post"
+            th:object="${completeTicketForm}"
+        >
+            <div class="mb-3">
+                <label for="teacherContent" class="form-label">Teacher's Content</label>
+                <textarea id="teacherContent" name="teacherContent" th:field="*{teacherContent}" class="form-control" placeholder="" required></textarea>
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('teacherContent')}" th:errors="*{teacherContent}"></div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Complete Ticket</button>
+            </div>
+
+        </form>
+    </div>
+
+</section>
+
+</body>
+</html>

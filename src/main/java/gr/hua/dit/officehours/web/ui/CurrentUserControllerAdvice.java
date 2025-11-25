@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 /**
  * Provides specific controllers {@link org.springframework.ui.Model} with the current user.
  */
-@ControllerAdvice(basePackageClasses = { ProfileController.class })
+@ControllerAdvice(basePackageClasses = { ProfileController.class, TicketController.class })
 public class CurrentUserControllerAdvice {
 
     private final CurrentUserProvider currentUserProvider;

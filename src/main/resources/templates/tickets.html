@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Tickets</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Tickets</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <table class="table mb-4">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Student</th>
+            <th>Teacher</th>
+            <th>Queued</th>
+            <th>Started</th>
+            <th>Completed</th>
+            <!--
+            <th>Actions</th>
+            -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="t : ${tickets}">
+            <td>
+                <a th:href="@{|/tickets/${t.id()}|}" th:text="${t.id()}"></a>
+            </td>
+            <td th:text="${t.status()}"></td>
+            <td th:text="${t.student().fullName()}"></td>
+            <td th:text="${t.teacher().fullName()}"></td>
+            <td th:text="${t.queuedAt()}"></td>
+            <td th:text="${t.inProgressAt()}"></td>
+            <td th:text="${t.completedAt()}"></td>
+            <!--
+            <td>
+                <a th:href="@{|/tickets/${t.id()}|}">View</a>
+            </td>
+            -->
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${me.type().name() == 'STUDENT'}">
+        <a th:href="@{/tickets/new}">Open new ticket</a>
+    </div>
+
+</section>
+
+</body>
+</html>

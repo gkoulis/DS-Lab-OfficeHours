@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Error</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Oops! An error occurred</h1>
+</header>
+
+<section layout:fragment="main">
+    <p th:if="${path}" th:text="${'Path: ' + (path == null ? '' : path)}"></p>
+    <p th:if="${message}" th:text="${message}"></p>
+    <p><a th:href="@{/}">Homepage</a></p>
+</section>
+
+</body>
+</html>

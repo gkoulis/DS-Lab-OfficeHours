@@ -24,13 +24,13 @@ public class GlobalErrorHandlerControllerAdvice {
                                  final HttpServletRequest httpServletRequest,
                                  final HttpServletResponse httpServletResponse,
                                  final Model model) {
+        model.addAttribute("message", exception.getMessage());
+        model.addAttribute("path", httpServletRequest.getRequestURI());
         if (exception instanceof NoResourceFoundException) {
             httpServletResponse.setStatus(404);
             return "error/404";
         }
         LOGGER.warn("Handling exception {} {}", exception.getClass(), exception.getMessage());
-        model.addAttribute("message", exception.getMessage());
-        model.addAttribute("path", httpServletRequest.getRequestURI());
         return "error/error";
     }
 }

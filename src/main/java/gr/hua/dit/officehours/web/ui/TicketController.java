@@ -2,12 +2,10 @@ package gr.hua.dit.officehours.web.ui;
 
 import gr.hua.dit.officehours.core.security.CurrentUserProvider;
 import gr.hua.dit.officehours.core.service.TicketService;
-import gr.hua.dit.officehours.core.service.model.CompleteTicketRequest;
 import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 import gr.hua.dit.officehours.core.service.model.StartTicketRequest;
 import gr.hua.dit.officehours.core.service.model.TicketView;
 
-import gr.hua.dit.officehours.web.ui.model.CompleteTicketForm;
 import gr.hua.dit.officehours.web.ui.model.OpenTicketForm;
 
 import jakarta.validation.Valid;
@@ -58,9 +56,8 @@ public class TicketController {
         if (ticketId == null) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Ticket not found");
         }
-        final CompleteTicketForm completeTicketForm = new CompleteTicketForm("");
         model.addAttribute("ticket", ticketView);
-        model.addAttribute("completeTicketForm", completeTicketForm);
+        model.addAttribute("completeTicketForm", null); // TODO Set.
         return "ticket";
     }
 
@@ -97,24 +94,6 @@ public class TicketController {
     public String handleStartForm(@PathVariable final Long ticketId) {
         final StartTicketRequest startTicketRequest = new StartTicketRequest(ticketId);
         final TicketView ticketView = this.ticketService.startTicket(startTicketRequest);
-        return "redirect:/tickets/" + ticketView.id();
-    }
-
-    @PreAuthorize("hasRole('TEACHER')")
-    @PostMapping("/{ticketId}/complete")
-    public String handleCompleteForm(
-        @PathVariable final Long ticketId,
-        @ModelAttribute("form") final CompleteTicketForm completeTicketForm,
-        final BindingResult bindingResult
-    ) {
-        if (bindingResult.hasErrors()) {
-            return "ticket";
-        }
-        final CompleteTicketRequest completeTicketRequest = new CompleteTicketRequest(
-            ticketId,
-            completeTicketForm.teacherContent()
-        );
-        final TicketView ticketView = this.ticketService.completeTicket(completeTicketRequest);
         return "redirect:/tickets/" + ticketView.id();
     }
 }

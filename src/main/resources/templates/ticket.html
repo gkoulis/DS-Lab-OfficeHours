@@ -43,24 +43,6 @@
             <button type="submit" class="btn btn-primary">Start</button>
         </form>
 
-        <!-- COMPLETED / complete -->
-        <form
-            th:if="${ticket.status().name() == 'IN_PROGRESS'}"
-            th:action="@{|/tickets/${ticket.id()}/complete|}"
-            method="post"
-            th:object="${completeTicketForm}"
-        >
-            <div class="mb-3">
-                <label for="teacherContent" class="form-label">Teacher's Content</label>
-                <textarea id="teacherContent" name="teacherContent" th:field="*{teacherContent}" class="form-control" placeholder="" required></textarea>
-                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('teacherContent')}" th:errors="*{teacherContent}"></div>
-            </div>
-
-            <div>
-                <button type="submit" class="btn btn-primary">Complete Ticket</button>
-            </div>
-
-        </form>
     </div>
 
 </section>

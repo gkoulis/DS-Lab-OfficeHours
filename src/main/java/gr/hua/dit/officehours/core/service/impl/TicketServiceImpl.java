@@ -12,7 +12,6 @@ import gr.hua.dit.officehours.core.security.CurrentUserProvider;
 import gr.hua.dit.officehours.core.service.TicketService;
 
 import gr.hua.dit.officehours.core.service.mapper.TicketMapper;
-import gr.hua.dit.officehours.core.service.model.CompleteTicketRequest;
 import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 import gr.hua.dit.officehours.core.service.model.StartTicketRequest;
 import gr.hua.dit.officehours.core.service.model.TicketView;
@@ -257,63 +256,6 @@ public class TicketServiceImpl implements TicketService {
 
         ticket.setStatus(TicketStatus.IN_PROGRESS);
         ticket.setInProgressAt(Instant.now());
-
-        // --------------------------------------------------
-
-        final Ticket savedTicket = this.ticketRepository.save(ticket);
-
-        // --------------------------------------------------
-
-        final TicketView ticketView = this.ticketMapper.convertTicketToTicketView(savedTicket);
-
-        // --------------------------------------------------
-
-        this.notifyPerson(ticketView, PersonType.STUDENT);
-
-        // --------------------------------------------------
-
-        return ticketView;
-    }
-
-    @Override
-    public TicketView completeTicket(@Valid final CompleteTicketRequest completeTicketRequest) {
-        if (completeTicketRequest == null) throw new NullPointerException();
-
-        // Unpack.
-        // --------------------------------------------------
-
-        final long ticketId = completeTicketRequest.id();
-        final String teacherContent = completeTicketRequest.teacherContent();
-
-        // --------------------------------------------------
-
-        final Ticket ticket = this.ticketRepository.findById(ticketId)
-            .orElseThrow(() -> new IllegalArgumentException("Ticket does not exist"));
-
-        // Security
-        // --------------------------------------------------
-
-        final long teacherId = ticket.getTeacher().getId();
-        final CurrentUser currentUser = this.currentUserProvider.requireCurrentUser();
-        if (currentUser.type() != PersonType.TEACHER) {
-            throw new SecurityException("Teacher role/type required");
-        }
-        if (currentUser.id() != teacherId) {
-            throw new SecurityException("Authenticated teacher does not match the ticket's teacherId");
-        }
-
-        // Rules
-        // --------------------------------------------------
-
-        if (ticket.getStatus() != TicketStatus.IN_PROGRESS) {
-            throw new IllegalArgumentException("Only IN_PROGRESS tickets can be completed");
-        }
-
-        // --------------------------------------------------
-
-        ticket.setStatus(TicketStatus.COMPLETED);
-        ticket.setTeacherContent(teacherContent);
-        ticket.setCompletedAt(Instant.now());
 
         // --------------------------------------------------
 

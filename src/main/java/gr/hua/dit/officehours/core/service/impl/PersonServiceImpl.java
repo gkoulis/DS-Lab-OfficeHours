@@ -13,6 +13,7 @@ import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
@@ -63,6 +64,7 @@ public class PersonServiceImpl implements PersonService {
         this.smsNotificationPort = smsNotificationPort;
     }
 
+    @Transactional
     @Override
     public CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest, final boolean notify) {
         if (createPersonRequest == null) throw new NullPointerException();

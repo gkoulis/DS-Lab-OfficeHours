@@ -19,6 +19,7 @@ import gr.hua.dit.officehours.core.service.model.TicketView;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import java.util.Set;
 /**
  * Default implementation of {@link TicketService}.
  *
+ * <p>
  * TODO some parts can be reused (e.g., security checks)
  */
 @Service
@@ -140,6 +142,7 @@ public class TicketServiceImpl implements TicketService {
             .toList();
     }
 
+    @Transactional
     @Override
     public TicketView openTicket(@Valid final OpenTicketRequest openTicketRequest, final boolean notify) {
         if (openTicketRequest == null) throw new NullPointerException();
@@ -220,6 +223,7 @@ public class TicketServiceImpl implements TicketService {
         return ticketView;
     }
 
+    @Transactional
     @Override
     public TicketView startTicket(@Valid final StartTicketRequest startTicketRequest) {
         if (startTicketRequest == null) throw new NullPointerException();
@@ -275,6 +279,7 @@ public class TicketServiceImpl implements TicketService {
         return ticketView;
     }
 
+    @Transactional
     @Override
     public TicketView completeTicket(@Valid final CompleteTicketRequest completeTicketRequest) {
         if (completeTicketRequest == null) throw new NullPointerException();

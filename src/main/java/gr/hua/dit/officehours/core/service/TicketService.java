@@ -2,6 +2,7 @@ package gr.hua.dit.officehours.core.service;
 
 import gr.hua.dit.officehours.core.model.Ticket;
 import gr.hua.dit.officehours.core.security.CurrentUser;
+import gr.hua.dit.officehours.core.service.model.CompleteTicketRequest;
 import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 import gr.hua.dit.officehours.core.service.model.StartTicketRequest;
 import gr.hua.dit.officehours.core.service.model.TicketView;
@@ -27,4 +28,6 @@ public interface TicketService {
     }
 
     TicketView startTicket(final StartTicketRequest startTicketRequest);
+
+    TicketView completeTicket(final CompleteTicketRequest completeTicketRequest);
 }

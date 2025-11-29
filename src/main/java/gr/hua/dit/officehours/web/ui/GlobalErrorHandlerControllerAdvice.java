@@ -25,18 +25,20 @@ public class GlobalErrorHandlerControllerAdvice {
                                  final HttpServletRequest httpServletRequest,
                                  final HttpServletResponse httpServletResponse,
                                  final Model model) {
+        LOGGER.warn("Handling exception {} {}", exception.getClass(), exception.getMessage());
         model.addAttribute("message", exception.getMessage());
         model.addAttribute("path", httpServletRequest.getRequestURI());
         if (exception instanceof NoResourceFoundException) {
             httpServletResponse.setStatus(404);
             return "error/404";
+        } else if (exception instanceof SecurityException) {
+            httpServletResponse.setStatus(401);
         } else if (exception instanceof ResponseStatusException responseStatusException) {
             if (responseStatusException.getStatusCode().value() == 404) {
                 httpServletResponse.setStatus(404);
                 return "error/404";
             }
         }
-        LOGGER.warn("Handling exception {} {}", exception.getClass(), exception.getMessage());
         return "error/error";
     }
 }

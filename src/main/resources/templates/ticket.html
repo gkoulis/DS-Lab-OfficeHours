@@ -29,7 +29,7 @@
         <li>Teacher: <b th:text="${ticket.teacher().fullName()}"></b></li>
         <li>Queued at: <b th:text="${ticket.queuedAt()}"></b></li>
         <li th:if="${ticket.inProgressAt() != null}">In progress at: <b th:text="${ticket.inProgressAt()}"></b></li>
-        <li th:if="${ticket.inProgressAt() != null}">Completed at: <b th:text="${ticket.completedAt()}"></b></li>
+        <li th:if="${ticket.completedAt() != null}">Completed at: <b th:text="${ticket.completedAt()}"></b></li>
         <li>Subject: <b th:text="${ticket.subject()}"></b></li>
         <li>Student's Content: <b th:text="${ticket.studentContent()}"></b></li>
         <li th:if="${ticket.teacherContent() != null}">Teacher's Content: <b th:text="${ticket.teacherContent()}"></b></li>

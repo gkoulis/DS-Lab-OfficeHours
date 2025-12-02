@@ -6,11 +6,14 @@ import gr.hua.dit.officehours.core.service.PersonDataService;
 import gr.hua.dit.officehours.core.service.mapper.PersonMapper;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
  * Default implementation of {@link PersonDataService}.
  */
+@Service
 public class PersonDataServiceImpl implements PersonDataService {
 
     private final PersonRepository personRepository;

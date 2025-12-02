@@ -6,11 +6,14 @@ import gr.hua.dit.officehours.core.service.TicketDataService;
 import gr.hua.dit.officehours.core.service.mapper.TicketMapper;
 import gr.hua.dit.officehours.core.service.model.TicketView;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
  * Default implementation of {@link TicketDataService}.
  */
+@Service
 public class TicketDataServiceImpl implements TicketDataService {
 
     private final TicketRepository ticketRepository;

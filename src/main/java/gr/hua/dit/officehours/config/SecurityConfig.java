@@ -2,6 +2,9 @@ package gr.hua.dit.officehours.config;
 
 import gr.hua.dit.officehours.core.security.JwtAuthenticationFilter;
 
+import gr.hua.dit.officehours.web.rest.error.RestApiAccessDeniedHandler;
+import gr.hua.dit.officehours.web.rest.error.RestApiAuthenticationEntryPoint;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -28,7 +31,10 @@ public class SecurityConfig {
      */
     @Bean
     @Order(1)
-    public SecurityFilterChain apiChain(final HttpSecurity http, final JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain apiChain(final HttpSecurity http,
+                                        final JwtAuthenticationFilter jwtAuthenticationFilter,
+                                        final RestApiAuthenticationEntryPoint restApiAuthenticationEntryPoint,
+                                        final RestApiAccessDeniedHandler restApiAccessDeniedHandler) throws Exception {
         http
             .securityMatcher("/api/v1/**")
             .csrf(AbstractHttpConfigurer::disable)
@@ -36,6 +42,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/client-tokens").permitAll()
                 .requestMatchers("/api/v1/**").authenticated()
+            )
+            .exceptionHandling(exh -> exh
+                .authenticationEntryPoint(restApiAuthenticationEntryPoint)
+                .accessDeniedHandler(restApiAccessDeniedHandler)
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .httpBasic(AbstractHttpConfigurer::disable)

@@ -1,4 +1,4 @@
-package gr.hua.dit.officehours.web.ui;
+package gr.hua.dit.officehours.web.ui.error;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 /**
  * Provides global error handling and custom error templates.
  */
-@ControllerAdvice
+@ControllerAdvice(basePackages = "gr.hua.dit.officehours.web.ui")
+@Order(2)
 public class GlobalErrorHandlerControllerAdvice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalErrorHandlerControllerAdvice.class);

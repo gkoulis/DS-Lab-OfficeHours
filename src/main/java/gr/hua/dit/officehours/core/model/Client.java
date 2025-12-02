@@ -43,14 +43,17 @@ public class Client {
     @Column(name = "secret", nullable = false, length = 255)
     private String secret;
 
-    @Column(name = "permissions_csv", nullable = true, length = 255)
-    private String permissionsCsv;
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = "^(?!.*\\bROLE_)[A-Z]+_[A-Z]+(?:,[A-Z]+_[A-Z]+)*$")
+    @Column(name = "roles_csv", nullable = false, length = 255)
+    private String rolesCsv;
 
-    public Client(Long id, String name, String secret, String permissionsCsv) {
+    public Client(Long id, String name, String secret, String rolesCsv) {
         this.id = id;
         this.name = name;
         this.secret = secret;
-        this.permissionsCsv = permissionsCsv;
+        this.rolesCsv = rolesCsv;
     }
 
     public Client() {
@@ -80,12 +83,12 @@ public class Client {
         this.secret = secret;
     }
 
-    public String getPermissionsCsv() {
-        return permissionsCsv;
+    public String getRolesCsv() {
+        return rolesCsv;
     }
 
-    public void setPermissionsCsv(String permissionsCsv) {
-        this.permissionsCsv = permissionsCsv;
+    public void setRolesCsv(String rolesCsv) {
+        this.rolesCsv = rolesCsv;
     }
 
     @Override
@@ -94,12 +97,12 @@ public class Client {
         Client client = (Client) o;
         return Objects.equals(name, client.name)
             && Objects.equals(secret, client.secret)
-            && Objects.equals(permissionsCsv, client.permissionsCsv);
+            && Objects.equals(rolesCsv, client.rolesCsv);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, secret, permissionsCsv);
+        return Objects.hash(name, secret, rolesCsv);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class Client {
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", secret='").append(secret).append('\'');
-        sb.append(", permissionsCsv='").append(permissionsCsv).append('\'');
+        sb.append(", rolesCsv='").append(rolesCsv).append('\'');
         sb.append('}');
         return sb.toString();
     }

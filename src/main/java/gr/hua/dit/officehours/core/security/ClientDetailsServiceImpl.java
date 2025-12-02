@@ -47,11 +47,10 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
             final ClientDetails clientDetails = new ClientDetails(
                 client.getName(),
                 client.getSecret(),
-                client.getPermissionsCsv() == null
-                    ? Collections.emptySet()
-                    : Arrays.stream(client.getPermissionsCsv().split(","))
-                        .map(String::strip)
-                        .collect(Collectors.toSet()));
+                Arrays.stream(client.getRolesCsv().split(","))
+                    .map(String::strip)
+                    .map(String::toUpperCase)
+                    .collect(Collectors.toSet()));
             return Optional.of(clientDetails);
         } else {
             return Optional.empty();

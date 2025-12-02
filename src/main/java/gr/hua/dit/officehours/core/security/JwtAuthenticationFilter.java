@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -42,6 +41,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.getWriter().write("{\"error\": \"invalid_token\"}");
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        final String path = request.getServletPath();
+        if (path.equals("/api/v1/auth/client-tokens")) return true;
+        return !path.startsWith("/api/v1");
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
@@ -66,10 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 roles == null
                     ? List.<GrantedAuthority>of() // empty list
                     : roles.stream().map(role ->
-                        new SimpleGrantedAuthority("ROLE_" + role)).toList(); // TODO Uppercase?
-
-            System.out.println(authorities.get(0));
-            System.out.println(authorities.get(1));
+                        new SimpleGrantedAuthority("ROLE_" + role)).toList();
 
             // Create User.
             final User principal = new User(subject, "", authorities);

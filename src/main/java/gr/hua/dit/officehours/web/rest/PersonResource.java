@@ -6,6 +6,7 @@ import gr.hua.dit.officehours.core.service.PersonDataService;
 import gr.hua.dit.officehours.core.service.model.PersonView;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ public class PersonResource {
         this.personDataService = personDataService;
     }
 
+    @PreAuthorize("hasRole('INTEGRATION_READ')")
     @GetMapping("")
     public List<PersonView> people() {
         final List<PersonView> personViewList = this.personDataService.getAllPeople();

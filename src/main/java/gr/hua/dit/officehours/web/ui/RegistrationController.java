@@ -1,7 +1,7 @@
 package gr.hua.dit.officehours.web.ui;
 
 import gr.hua.dit.officehours.core.model.PersonType;
-import gr.hua.dit.officehours.core.service.PersonService;
+import gr.hua.dit.officehours.core.service.PersonBusinessLogicService;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RegistrationController {
 
-    private final PersonService personService;
+    private final PersonBusinessLogicService personBusinessLogicService;
 
-    public RegistrationController(final PersonService personService) {
-        if (personService == null) throw new NullPointerException();
-        this.personService = personService;
+    public RegistrationController(final PersonBusinessLogicService personBusinessLogicService) {
+        if (personBusinessLogicService == null) throw new NullPointerException();
+        this.personBusinessLogicService = personBusinessLogicService;
     }
 
     @GetMapping("/register")
@@ -55,7 +55,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        final CreatePersonResult createPersonResult = this.personService.createPerson(createPersonRequest);
+        final CreatePersonResult createPersonResult = this.personBusinessLogicService.createPerson(createPersonRequest);
         if (createPersonResult.created()) {
             return "redirect:/login"; // registration successful - redirect to login form (not yet ready)
         }

@@ -6,7 +6,7 @@ import gr.hua.dit.officehours.core.service.model.CreatePersonResult;
 /**
  * Service for managing {@link gr.hua.dit.officehours.core.model.Person}.
  */
-public interface PersonService {
+public interface PersonBusinessLogicService {
 
     CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest, final boolean notify);
 

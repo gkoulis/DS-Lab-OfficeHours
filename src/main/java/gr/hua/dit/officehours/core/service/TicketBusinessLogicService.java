@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  * <p><strong>All methods MUST be {@link CurrentUser}-aware.</strong></p>
  */
-public interface TicketService {
+public interface TicketBusinessLogicService {
 
     Optional<TicketView> getTicket(final Long id);
 

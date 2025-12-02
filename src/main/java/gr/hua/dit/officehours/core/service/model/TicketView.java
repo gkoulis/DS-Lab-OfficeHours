@@ -1,6 +1,7 @@
 package gr.hua.dit.officehours.core.service.model;
 
 import gr.hua.dit.officehours.core.model.TicketStatus;
+import gr.hua.dit.officehours.core.service.TicketBusinessLogicService;
 
 import java.time.Instant;
 
@@ -8,7 +9,7 @@ import java.time.Instant;
  * General view of {@link gr.hua.dit.officehours.core.model.Ticket} entity.
  *
  * @see gr.hua.dit.officehours.core.model.Ticket
- * @see gr.hua.dit.officehours.core.service.TicketService
+ * @see TicketBusinessLogicService
  */
 public record TicketView(
     long id,

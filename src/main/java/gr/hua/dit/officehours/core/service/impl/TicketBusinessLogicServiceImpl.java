@@ -9,7 +9,7 @@ import gr.hua.dit.officehours.core.repository.PersonRepository;
 import gr.hua.dit.officehours.core.repository.TicketRepository;
 import gr.hua.dit.officehours.core.security.CurrentUser;
 import gr.hua.dit.officehours.core.security.CurrentUserProvider;
-import gr.hua.dit.officehours.core.service.TicketService;
+import gr.hua.dit.officehours.core.service.TicketBusinessLogicService;
 
 import gr.hua.dit.officehours.core.service.mapper.TicketMapper;
 import gr.hua.dit.officehours.core.service.model.CompleteTicketRequest;
@@ -32,15 +32,15 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Default implementation of {@link TicketService}.
+ * Default implementation of {@link TicketBusinessLogicService}.
  *
  * <p>
  * TODO some parts can be reused (e.g., security checks)
  */
 @Service
-public class TicketServiceImpl implements TicketService {
+public class TicketBusinessLogicServiceImpl implements TicketBusinessLogicService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TicketServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TicketBusinessLogicServiceImpl.class);
 
     private static final Set<TicketStatus> ACTIVE = Set.of(TicketStatus.QUEUED, TicketStatus.IN_PROGRESS);
 
@@ -50,11 +50,11 @@ public class TicketServiceImpl implements TicketService {
     private final CurrentUserProvider currentUserProvider;
     private final SmsNotificationPort smsNotificationPort;
 
-    public TicketServiceImpl(final TicketMapper ticketMapper,
-                             final TicketRepository ticketRepository,
-                             final PersonRepository personRepository,
-                             final CurrentUserProvider currentUserProvider,
-                             final SmsNotificationPort smsNotificationPort) {
+    public TicketBusinessLogicServiceImpl(final TicketMapper ticketMapper,
+                                          final TicketRepository ticketRepository,
+                                          final PersonRepository personRepository,
+                                          final CurrentUserProvider currentUserProvider,
+                                          final SmsNotificationPort smsNotificationPort) {
         if (ticketMapper == null) throw new NullPointerException();
         if (ticketRepository == null) throw new NullPointerException();
         if (personRepository == null) throw new NullPointerException();

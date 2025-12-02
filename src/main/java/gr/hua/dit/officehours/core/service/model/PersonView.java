@@ -1,12 +1,13 @@
 package gr.hua.dit.officehours.core.service.model;
 
 import gr.hua.dit.officehours.core.model.PersonType;
+import gr.hua.dit.officehours.core.service.PersonBusinessLogicService;
 
 /**
  * General view of {@link gr.hua.dit.officehours.core.model.Person} entity.
  *
  * @see gr.hua.dit.officehours.core.model.Person
- * @see gr.hua.dit.officehours.core.service.PersonService
+ * @see PersonBusinessLogicService
  */
 public record PersonView(
     long id,

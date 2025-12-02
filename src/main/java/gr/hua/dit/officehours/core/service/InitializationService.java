@@ -2,7 +2,6 @@ package gr.hua.dit.officehours.core.service;
 
 import gr.hua.dit.officehours.core.model.PersonType;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
-import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 
 import jakarta.annotation.PostConstruct;
 
@@ -22,16 +21,16 @@ public class InitializationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializationService.class);
 
-    private final PersonService personService;
-    private final TicketService ticketService;
+    private final PersonBusinessLogicService personBusinessLogicService;
+    private final TicketBusinessLogicService ticketBusinessLogicService;
     private final AtomicBoolean initialized;
 
-    public InitializationService(final PersonService personService,
-                                 final TicketService ticketService) {
-        if (personService == null) throw new NullPointerException();
-        if (ticketService == null) throw new NullPointerException();
-        this.personService = personService;
-        this.ticketService = ticketService;
+    public InitializationService(final PersonBusinessLogicService personBusinessLogicService,
+                                 final TicketBusinessLogicService ticketBusinessLogicService) {
+        if (personBusinessLogicService == null) throw new NullPointerException();
+        if (ticketBusinessLogicService == null) throw new NullPointerException();
+        this.personBusinessLogicService = personBusinessLogicService;
+        this.ticketBusinessLogicService = ticketBusinessLogicService;
         this.initialized = new AtomicBoolean(false);
     }
 
@@ -76,7 +75,7 @@ public class InitializationService {
             )
         );
         for (final var createPersonRequest : createPersonRequestList) {
-            this.personService.createPerson(createPersonRequest, false); // do not send SMS
+            this.personBusinessLogicService.createPerson(createPersonRequest, false); // do not send SMS
         }
         // TODO Not working: requires authenticated user!
         /*

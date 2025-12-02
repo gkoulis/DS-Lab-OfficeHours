@@ -1,7 +1,7 @@
 package gr.hua.dit.officehours.web.ui;
 
 import gr.hua.dit.officehours.core.security.CurrentUserProvider;
-import gr.hua.dit.officehours.core.service.TicketService;
+import gr.hua.dit.officehours.core.service.TicketBusinessLogicService;
 import gr.hua.dit.officehours.core.service.model.CompleteTicketRequest;
 import gr.hua.dit.officehours.core.service.model.OpenTicketRequest;
 import gr.hua.dit.officehours.core.service.model.StartTicketRequest;
@@ -34,27 +34,27 @@ import java.util.List;
 public class TicketController {
 
     private final CurrentUserProvider currentUserProvider;
-    private final TicketService ticketService;
+    private final TicketBusinessLogicService ticketBusinessLogicService;
 
     public TicketController(final CurrentUserProvider currentUserProvider,
-                            final TicketService ticketService) {
+                            final TicketBusinessLogicService ticketBusinessLogicService) {
         if (currentUserProvider == null) throw new NullPointerException();
-        if (ticketService == null) throw new NullPointerException();
+        if (ticketBusinessLogicService == null) throw new NullPointerException();
 
         this.currentUserProvider = currentUserProvider;
-        this.ticketService = ticketService;
+        this.ticketBusinessLogicService = ticketBusinessLogicService;
     }
 
     @GetMapping("")
     public String list(final Model model) {
-        final List<TicketView> ticketViewList = this.ticketService.getTickets();
+        final List<TicketView> ticketViewList = this.ticketBusinessLogicService.getTickets();
         model.addAttribute("tickets", ticketViewList);
         return "tickets";
     }
 
     @GetMapping("/{ticketId}")
     public String detail(@PathVariable final Long ticketId, final Model model) {
-        final TicketView ticketView = this.ticketService.getTicket(ticketId).orElse(null);
+        final TicketView ticketView = this.ticketBusinessLogicService.getTicket(ticketId).orElse(null);
         if (ticketId == null) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Ticket not found");
         }
@@ -88,7 +88,7 @@ public class TicketController {
             openTicketForm.subject(),
             openTicketForm.studentContent()
         );
-        final TicketView ticketView = this.ticketService.openTicket(openTicketRequest);
+        final TicketView ticketView = this.ticketBusinessLogicService.openTicket(openTicketRequest);
         return "redirect:/tickets/" + ticketView.id();
     }
 
@@ -96,7 +96,7 @@ public class TicketController {
     @PostMapping("/{ticketId}/start")
     public String handleStartForm(@PathVariable final Long ticketId) {
         final StartTicketRequest startTicketRequest = new StartTicketRequest(ticketId);
-        final TicketView ticketView = this.ticketService.startTicket(startTicketRequest);
+        final TicketView ticketView = this.ticketBusinessLogicService.startTicket(startTicketRequest);
         return "redirect:/tickets/" + ticketView.id();
     }
 
@@ -114,7 +114,7 @@ public class TicketController {
             ticketId,
             completeTicketForm.teacherContent()
         );
-        final TicketView ticketView = this.ticketService.completeTicket(completeTicketRequest);
+        final TicketView ticketView = this.ticketBusinessLogicService.completeTicket(completeTicketRequest);
         return "redirect:/tickets/" + ticketView.id();
     }
 }

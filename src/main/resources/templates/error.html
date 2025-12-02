@@ -1,0 +1,19 @@
+<!--
+By default το spring χρησιμοποιεί το error.html για να εμφανίζει τα σφάλματα που ΔΕΝ διαχειριζόμαστε εμείς.
+Συνεπώς, επειδή έχουμε απενεργοποιήσει το whitelabel error page, ψάχνει να βρει το error.html,
+δε το βρίσκει και εμφανίζει σφάλματα ο Tomcat. Οπότε θα δημιουργήσουμε μια απλή fallback σελίδα για να αποφύγουμε αυτές τις περιπτώσεις.
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Error (fallback)</title>
+</head>
+<body>
+<h1 th:text="${status}">Error</h1>
+<p th:text="${error}">Something went wrong</p>
+<p th:text="${message}"></p>
+<p th:text="${path}"></p>
+<p th:text="${timestamp}"></p>
+</body>
+</html>

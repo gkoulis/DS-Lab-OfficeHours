@@ -1,6 +1,8 @@
 package gr.hua.dit.officehours.core.service;
 
+import gr.hua.dit.officehours.core.model.Client;
 import gr.hua.dit.officehours.core.model.PersonType;
+import gr.hua.dit.officehours.core.repository.ClientRepository;
 import gr.hua.dit.officehours.core.service.model.CreatePersonRequest;
 
 import jakarta.annotation.PostConstruct;
@@ -21,14 +23,18 @@ public class InitializationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializationService.class);
 
+    private final ClientRepository clientRepository;
     private final PersonBusinessLogicService personBusinessLogicService;
     private final TicketBusinessLogicService ticketBusinessLogicService;
     private final AtomicBoolean initialized;
 
-    public InitializationService(final PersonBusinessLogicService personBusinessLogicService,
+    public InitializationService(final ClientRepository clientRepository,
+                                 final PersonBusinessLogicService personBusinessLogicService,
                                  final TicketBusinessLogicService ticketBusinessLogicService) {
+        if (clientRepository == null) throw new NullPointerException();
         if (personBusinessLogicService == null) throw new NullPointerException();
         if (ticketBusinessLogicService == null) throw new NullPointerException();
+        this.clientRepository = clientRepository;
         this.personBusinessLogicService = personBusinessLogicService;
         this.ticketBusinessLogicService = ticketBusinessLogicService;
         this.initialized = new AtomicBoolean(false);
@@ -42,6 +48,11 @@ public class InitializationService {
             return;
         }
         LOGGER.info("Starting database initialization with initial data...");
+        final List<Client> clientList = List.of(
+            new Client(null, "client01", "s3cr3t", "INTEGRATION_READ,INTEGRATION_WRITE"),
+            new Client(null, "client02", "s3cr3t", "INTEGRATION_READ")
+        );
+        this.clientRepository.saveAll(clientList);
         final List<CreatePersonRequest> createPersonRequestList = List.of(
             // User with ID 1
             new CreatePersonRequest(

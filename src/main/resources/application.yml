@@ -30,3 +30,11 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+# Custom Application Properties.
+app:
+  jwt:
+    issuer: "office-hours-api"
+    audience: "external-systems"
+    secret: "${JWT_SECRET:Uh0WvRj5qs2sChP0dwTkky/VoudWSk0FVikEDDUKdRU=}" # openssl rand -base64 32
+    ttl-minutes: 60

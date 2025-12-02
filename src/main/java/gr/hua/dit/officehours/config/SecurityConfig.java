@@ -1,5 +1,7 @@
 package gr.hua.dit.officehours.config;
 
+import gr.hua.dit.officehours.core.security.JwtAuthenticationFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -7,9 +9,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Security configuration.
@@ -18,10 +23,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity // enables @PreAuthorize
 public class SecurityConfig {
 
-    // @future API Security (stateless - JWT based)
+    /**
+     * API chain {@code "/api/**"} (stateless, JWT).
+     */
+    @Bean
+    @Order(1)
+    public SecurityFilterChain apiChain(final HttpSecurity http, final JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        http
+            .securityMatcher("/api/v1/**")
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/v1/auth/client-tokens").permitAll()
+                .requestMatchers("/api/v1/**").authenticated()
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable);
+        return http.build();
+    }
 
     /**
-     * UI chain {@code "/**"} (stateful - cookie based).
+     * UI chain {@code "/**"} (stateful, cookie based).
      */
     @Bean
     @Order(2)
@@ -50,8 +73,7 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .permitAll()
             )
-            // Disable basic security.
-            .httpBasic(basic -> {});
+            .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

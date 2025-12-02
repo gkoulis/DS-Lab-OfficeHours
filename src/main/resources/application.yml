@@ -24,3 +24,9 @@ server:
     include-message: always
     include-binding-errors: always
     include-exception: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

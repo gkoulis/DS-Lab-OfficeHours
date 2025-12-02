@@ -28,7 +28,10 @@ public class SecurityConfig {
     public SecurityFilterChain uiChain(final HttpSecurity http) throws Exception {
         http
             .securityMatcher("/**")
+            // Το αφήνουμε ως σχόλιο προσωρινά... TODO configure.
+            // .csrf(csrf -> csrf.ignoringRequestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**"))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 .requestMatchers("/", "/login", "/register").permitAll() // Public
                 .requestMatchers("/profile", "/logout").authenticated() // Private
                 .anyRequest().permitAll() // the rest

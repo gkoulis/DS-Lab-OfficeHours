@@ -3,6 +3,7 @@ package gr.hua.dit.officehours.web.rest;
 import gr.hua.dit.officehours.core.service.TicketDataService;
 import gr.hua.dit.officehours.core.service.model.TicketView;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ import java.util.List;
  * REST controller for managing {@code Ticket} resource.
  */
 @RestController
-@RequestMapping("/api/v1/ticket")
+@RequestMapping(value = "/api/v1/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TicketResource {
 
     private final TicketDataService ticketDataService;

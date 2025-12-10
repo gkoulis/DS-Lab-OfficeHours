@@ -4,9 +4,9 @@ spring:
     name: Office Hours
 
   datasource:
-    url: jdbc:postgresql://dpg-d4rgvhu3jp1c7390h6og-a.frankfurt-postgres.render.com:5432/officehoursdb
-    username: officehoursusr
-    password: h6jJm9qQvD50RCatTBtq7jCe2PS6c3nq
+    url: jdbc:postgresql://dpg-d4smq2hr0fns73aa8bdg-a.frankfurt-postgres.render.com:5432/dslabofficehoursdb
+    username: dslabofficehoursusr
+    password: abiK7yctaRVRtMKP7kioaz1dGvlv33iG
     driver-class-name: org.postgresql.Driver
 #  datasource:
 #    url: jdbc:h2:file:./LOCAL_DATA/h2/app;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE

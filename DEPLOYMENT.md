@@ -92,7 +92,6 @@ WantedBy=multi-user.target
 sudo mkdir -p /opt/DS-Lab-OfficeHours/LOCAL_DATA
 sudo chown -R sammy:sammy /opt/DS-Lab-OfficeHours
 sudo chmod -R 755 /opt/DS-Lab-OfficeHours
-
 ```
 
 ```shell
